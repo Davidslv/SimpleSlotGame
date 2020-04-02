@@ -10,10 +10,12 @@ import SwiftUI
 
 struct ContentView: View {
 
-    private var symbols = ["apple", "cherry", "star"]
-    
+    @State private var symbols = ["apple", "cherry", "star"]
+    @State private var symbolBackground = Color.white
     @State private var credits = 1_000
-    @State private var numbers = [0, 0, 0]
+    @State private var numbers = [
+        0, 0, 0
+    ]
     @State private var won = false
     private var betAmount = 5
     
@@ -53,6 +55,7 @@ struct ContentView: View {
                 }
                 Spacer()
                 
+                
                 Text("Credits: \(credits)")
                     .foregroundColor(.black)
                     .padding(10)
@@ -63,23 +66,19 @@ struct ContentView: View {
                 HStack {
                     Spacer()
                     
-                    Image(symbols[numbers[0]])
-                        .resizable()
-                        .aspectRatio(1, contentMode: .fit)
-                        .background(Color.white.opacity(0.5))
-                        .cornerRadius(20)
-                    
-                    Image(symbols[numbers[1]])
-                        .resizable()
-                        .aspectRatio(1, contentMode: .fit)
-                        .background(Color.white.opacity(0.5))
-                        .cornerRadius(20)
-                    
-                    Image(symbols[numbers[2]])
-                        .resizable()
-                        .aspectRatio(1, contentMode: .fit)
-                        .background(Color.white.opacity(0.5))
-                        .cornerRadius(20)
+                    CardView(
+                        symbol: $symbols[numbers[0]],
+                        symbolBackground: $symbolBackground
+                    )
+                    CardView(
+                        symbol: $symbols[numbers[1]],
+                        symbolBackground: $symbolBackground
+                    )
+                    CardView(
+                        symbol: $symbols[numbers[2]],
+                        symbolBackground: $symbolBackground
+                    )
+                   
                     Spacer()
                 }
                 .padding(.bottom, 40)
@@ -87,20 +86,18 @@ struct ContentView: View {
                 Spacer()
                 
                 Button(action: {
-                    let column1 = Int.random(in: 0...self.symbols.count - 1)
-                    let column2 = Int.random(in: 0...self.symbols.count - 1)
-                    let column3 = Int.random(in: 0...self.symbols.count - 1)
+                    self.numbers = self.numbers.map({ _ in
+                        Int.random(in: 0...self.symbols.count - 1)
+                    })
                     
-                    self.numbers[0] = column1
-                    self.numbers[1] = column2
-                    self.numbers[2] = column3
-                    
-                    if (column1 == column2 && column1 == column3) {
+                    if (self.numbers[0] == self.numbers[1] && self.numbers[0] == self.numbers[2]) {
                         self.credits += self.betAmount * 10
+                        self.symbolBackground = Color.green
                         self.won = true
                     }
                     else {
                         self.credits -= self.betAmount
+                        self.symbolBackground = Color.white
                         self.won = false
                     }
                     

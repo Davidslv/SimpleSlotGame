@@ -13,6 +13,7 @@
 		2D43B2C824365EDF0033CA92 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2D43B2C724365EDF0033CA92 /* Assets.xcassets */; };
 		2D43B2CB24365EDF0033CA92 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2D43B2CA24365EDF0033CA92 /* Preview Assets.xcassets */; };
 		2D43B2CE24365EDF0033CA92 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2D43B2CC24365EDF0033CA92 /* LaunchScreen.storyboard */; };
+		2D43B2D7243683700033CA92 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D43B2D6243683700033CA92 /* CardView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		2D43B2CA24365EDF0033CA92 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2D43B2CD24365EDF0033CA92 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2D43B2CF24365EDF0033CA92 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2D43B2D6243683700033CA92 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +58,7 @@
 		2D43B2C024365EDD0033CA92 /* SlotsDemo */ = {
 			isa = PBXGroup;
 			children = (
+				2D43B2D52436835C0033CA92 /* Views */,
 				2D43B2C124365EDD0033CA92 /* AppDelegate.swift */,
 				2D43B2C324365EDD0033CA92 /* SceneDelegate.swift */,
 				2D43B2C524365EDD0033CA92 /* ContentView.swift */,
@@ -73,6 +76,14 @@
 				2D43B2CA24365EDF0033CA92 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		2D43B2D52436835C0033CA92 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				2D43B2D6243683700033CA92 /* CardView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -148,6 +159,7 @@
 			files = (
 				2D43B2C224365EDD0033CA92 /* AppDelegate.swift in Sources */,
 				2D43B2C424365EDD0033CA92 /* SceneDelegate.swift in Sources */,
+				2D43B2D7243683700033CA92 /* CardView.swift in Sources */,
 				2D43B2C624365EDD0033CA92 /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
