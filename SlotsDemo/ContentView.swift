@@ -13,16 +13,8 @@ struct ContentView: View {
     @State private var symbols = ["apple", "cherry", "star"]
     
     @State private var credits = 1_000
-    @State private var numbers = [
-        0, 0, 0,
-        0, 0, 0,
-        0, 0, 0
-    ]
-    @State private var symbolBackgrounds = [
-        Color.white, Color.white, Color.white,
-        Color.white, Color.white, Color.white,
-        Color.white, Color.white, Color.white,
-    ]
+    @State private var numbers = Array(repeating: 0, count: 9)
+    @State private var symbolBackgrounds = Array(repeating: Color.white, count: 9)
     
     private var betAmount = 10
     @State private var cardsMatchHorizontally = false
