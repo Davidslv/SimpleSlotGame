@@ -14,7 +14,9 @@ struct ContentView: View {
     @State private var symbolBackground = Color.white
     @State private var credits = 1_000
     @State private var numbers = [
-        0, 0, 0
+        0, 0, 0,
+        0, 0, 0,
+        0, 0, 0,
     ]
     @State private var won = false
     private var betAmount = 5
@@ -63,25 +65,56 @@ struct ContentView: View {
                     .cornerRadius(20)
                 Spacer()
                 
-                HStack {
-                    Spacer()
-                    
-                    CardView(
-                        symbol: $symbols[numbers[0]],
-                        symbolBackground: $symbolBackground
-                    )
-                    CardView(
-                        symbol: $symbols[numbers[1]],
-                        symbolBackground: $symbolBackground
-                    )
-                    CardView(
-                        symbol: $symbols[numbers[2]],
-                        symbolBackground: $symbolBackground
-                    )
-                   
-                    Spacer()
+                
+                VStack {
+                    HStack {
+                        Spacer()
+                        
+                        CardView(
+                            symbol: $symbols[numbers[0]],
+                            symbolBackground: $symbolBackground
+                        )
+                        CardView(
+                            symbol: $symbols[numbers[1]],
+                            symbolBackground: $symbolBackground
+                        )
+                        CardView(
+                            symbol: $symbols[numbers[2]],
+                            symbolBackground: $symbolBackground
+                        )
+                       
+                        Spacer()
+                    }
+                    HStack {
+                        CardView(
+                            symbol: $symbols[numbers[3]],
+                            symbolBackground: $symbolBackground
+                        )
+                        CardView(
+                            symbol: $symbols[numbers[4]],
+                            symbolBackground: $symbolBackground
+                        )
+                        CardView(
+                            symbol: $symbols[numbers[5]],
+                            symbolBackground: $symbolBackground
+                        )
+                    }
+                    HStack {
+                         CardView(
+                             symbol: $symbols[numbers[6]],
+                             symbolBackground: $symbolBackground
+                         )
+                         CardView(
+                             symbol: $symbols[numbers[7]],
+                             symbolBackground: $symbolBackground
+                         )
+                         CardView(
+                             symbol: $symbols[numbers[8]],
+                             symbolBackground: $symbolBackground
+                         )
+                     }
+                    .padding(.bottom, 40)
                 }
-                .padding(.bottom, 40)
                 
                 Spacer()
                 
