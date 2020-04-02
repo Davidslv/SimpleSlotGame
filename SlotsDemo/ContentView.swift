@@ -24,7 +24,7 @@ struct ContentView: View {
         Color.white, Color.white, Color.white,
     ]
     
-    private var betAmount = 5
+    private var betAmount = 10
     @State private var cardsMatchHorizontally = false
     @State private var cardsMatchVertically = false
     @State private var cardsMatchDiagonally = false
@@ -205,68 +205,121 @@ struct ContentView: View {
                 
                 Spacer()
                 
-                Button(action: {
-                    self.numbers = self.numbers.map({ _ in
-                        Int.random(in: 0..<self.symbols.count)
-                    })
-                    
-                    self.horizontalMultiplier = 0
-                    self.verticalMultiplier = 0
-                    self.diagonalMultiplier = 0
-                    
-                    // set card backgrounds back to white
-                    self.symbolBackgrounds = self.symbolBackgrounds.map { _ in
-                        Color.white
+                HStack {
+                    Spacer()
+                    Button(action: {
+                        self.numbers = self.numbers.map({ _ in
+                            Int.random(in: 0..<self.symbols.count)
+                        })
+                        
+                        self.horizontalMultiplier = 0
+                        self.verticalMultiplier = 0
+                        self.diagonalMultiplier = 0
+                        
+                        // set card backgrounds back to white
+                        self.symbolBackgrounds = self.symbolBackgrounds.map { _ in
+                            Color.white
+                        }
+                        
+                        self.horizontalMatch()
+                        self.verticalMatch()
+                        self.diagonalMatch()
+                        
+                        let multipliers = self.verticalMultiplier + self.horizontalMultiplier + self.diagonalMultiplier
+                        
+                        if (self.cardsMatchDiagonally) {
+                            self.credits += self.betAmount * 3/2 * multipliers
+                            print("D = \(self.credits) | m : \(multipliers)")
+                        }
+                        else if (self.cardsMatchHorizontally) {
+                            self.credits += self.betAmount * 3/2 * multipliers
+                            print("H = \(self.credits) | m : \(multipliers)")
+                        }
+                        else if (self.cardsMatchVertically) {
+                            self.credits += self.betAmount * 3/2 * multipliers
+                            print("V = \(self.credits) | m : \(multipliers)")
+                        }
+                        else {
+                            print("no match: \(self.credits)")
+                            self.credits -= self.betAmount
+                        }
+                        
+                    }) {
+                        Text("10 Credits")
+                            .fontWeight(.semibold)
+                            .foregroundColor(.white)
+                            .padding(.all, 10)
+                            .padding([.leading, .trailing], 20)
+                            .background(Color.orange.opacity(20))
+                            .cornerRadius(15)
                     }
                     
-                    self.horizontalMatch()
-                    self.verticalMatch()
-                    self.diagonalMatch()
+                    Spacer()
                     
-                    let multipliers = self.verticalMultiplier + self.horizontalMultiplier + self.diagonalMultiplier
-                    
-                    if (self.cardsMatchVertically && self.cardsMatchHorizontally && self.cardsMatchDiagonally) {
-                        self.credits += self.betAmount * 10 * multipliers
-                       print("V + H + D = \(self.credits) | m : \(multipliers)")
+                    Button(action: {
+                        self.numbers = self.numbers.map({ _ in
+                            Int.random(in: 0..<self.symbols.count)
+                        })
+                        
+                        self.horizontalMultiplier = 0
+                        self.verticalMultiplier = 0
+                        self.diagonalMultiplier = 0
+                        
+                        // set card backgrounds back to white
+                        self.symbolBackgrounds = self.symbolBackgrounds.map { _ in
+                            Color.white
+                        }
+                        
+                        self.horizontalMatch()
+                        self.verticalMatch()
+                        self.diagonalMatch()
+                        
+                        let multipliers = self.verticalMultiplier + self.horizontalMultiplier + self.diagonalMultiplier
+                        
+                        if (self.cardsMatchVertically && self.cardsMatchHorizontally && self.cardsMatchDiagonally) {
+                            self.credits += self.betAmount * 5 * multipliers
+                           print("V + H + D = \(self.credits) | m : \(multipliers)")
+                        }
+                        else if (self.cardsMatchVertically && self.cardsMatchHorizontally) {
+                            self.credits += self.betAmount * 4 * multipliers
+                            print("V + H = \(self.credits) | m : \(multipliers)")
+                        }
+                        else if (self.cardsMatchVertically && self.cardsMatchDiagonally) {
+                            self.credits += self.betAmount * 4 * multipliers
+                            print("V + D = \(self.credits) | m : \(multipliers)")
+                        }
+                        else if (self.cardsMatchHorizontally && self.cardsMatchDiagonally) {
+                            self.credits += self.betAmount * 4 * multipliers
+                            print("H + D = \(self.credits) | m : \(multipliers)")
+                        }
+                        else if (self.cardsMatchDiagonally) {
+                            self.credits += self.betAmount * 4 * multipliers
+                            print("D = \(self.credits) | m : \(multipliers)")
+                        }
+                        else if (self.cardsMatchHorizontally) {
+                            self.credits += self.betAmount * 4 * multipliers
+                            print("H = \(self.credits) | m : \(multipliers)")
+                        }
+                        else if (self.cardsMatchVertically) {
+                            self.credits += self.betAmount * 4 * multipliers
+                            print("V = \(self.credits) | m : \(multipliers)")
+                        }
+                        else {
+                            print("no match: \(self.credits)")
+                            self.credits -= self.betAmount * 10
+                        }
+                        
+                    }) {
+                        Text("100 Credits")
+                            .fontWeight(.semibold)
+                            .foregroundColor(.white)
+                            .padding(.all, 10)
+                            .padding([.leading, .trailing], 20)
+                            .background(Color.pink)
+                            .cornerRadius(15)
+                        
                     }
-                    else if (self.cardsMatchVertically && self.cardsMatchHorizontally) {
-                        self.credits += self.betAmount * 20 * multipliers
-                        print("V + H = \(self.credits) | m : \(multipliers)")
-                    }
-                    else if (self.cardsMatchVertically && self.cardsMatchDiagonally) {
-                        self.credits += self.betAmount * 20 * multipliers
-                        print("V + D = \(self.credits) | m : \(multipliers)")
-                    }
-                    else if (self.cardsMatchHorizontally && self.cardsMatchDiagonally) {
-                        self.credits += self.betAmount * 20 * multipliers
-                        print("H + D = \(self.credits) | m : \(multipliers)")
-                    }
-                    else if (self.cardsMatchDiagonally) {
-                        self.credits += self.betAmount * 15 * multipliers
-                        print("D = \(self.credits) | m : \(multipliers)")
-                    }
-                    else if (self.cardsMatchHorizontally) {
-                        self.credits += self.betAmount * 10 * multipliers
-                        print("H = \(self.credits) | m : \(multipliers)")
-                    }
-                    else if (self.cardsMatchVertically) {
-                        self.credits += self.betAmount * 10 * multipliers
-                        print("V = \(self.credits) | m : \(multipliers)")
-                    }
-                    else {
-                        print("no match: \(self.credits)")
-                        self.credits -= self.betAmount
-                    }
-                    
-                }) {
-                    Text("Spin")
-                        .fontWeight(.semibold)
-                        .foregroundColor(.white)
-                        .padding(.all, 10)
-                        .padding([.leading, .trailing], 30)
-                        .background(Color.pink)
-                        .cornerRadius(15)
-                    
+                    Spacer()
                 }
                 
                 Spacer()
