@@ -15,98 +15,9 @@ struct ContentView: View {
     @State private var credits = 1_000
     @State private var numbers = Array(repeating: 0, count: 9)
     @State private var symbolBackgrounds = Array(repeating: Color.white, count: 9)
+    @State private var matches = 0
     
     private var betAmount = 10
-    @State private var cardsMatchHorizontally = false
-    @State private var cardsMatchVertically = false
-    @State private var cardsMatchDiagonally = false
-    @State private var horizontalMultiplier = 0
-    @State private var verticalMultiplier = 0
-    @State private var diagonalMultiplier = 0
-    
-
-    func horizontalMatch() {
-        self.cardsMatchHorizontally = false
-        
-        if (self.numbers[0] == self.numbers[1] && self.numbers[0] == self.numbers[2]) {
-            self.cardsMatchHorizontally = true
-            self.horizontalMultiplier += 1
-            
-            self.symbolBackgrounds[0] = Color.green
-            self.symbolBackgrounds[1] = Color.green
-            self.symbolBackgrounds[2] = Color.green
-        }
-        
-        if (self.numbers[3] == self.numbers[4] && self.numbers[3] == self.numbers[5]) {
-            self.cardsMatchHorizontally = true
-            self.horizontalMultiplier += 1
-            
-            self.symbolBackgrounds[3] = Color.green
-            self.symbolBackgrounds[4] = Color.green
-            self.symbolBackgrounds[5] = Color.green
-        }
-        
-        if (self.numbers[6] == self.numbers[7] && self.numbers[6] == self.numbers[8]) {
-            self.cardsMatchHorizontally = true
-            self.horizontalMultiplier += 1
-            
-            self.symbolBackgrounds[6] = Color.green
-            self.symbolBackgrounds[7] = Color.green
-            self.symbolBackgrounds[8] = Color.green
-        }
-    }
-    
-    func verticalMatch() {
-        self.cardsMatchVertically = false
-        
-        if (self.numbers[0] == self.numbers[3] && self.numbers[0] == self.numbers[6]) {
-            self.cardsMatchVertically = true
-            self.verticalMultiplier += 1
-            
-            self.symbolBackgrounds[0] = Color.green
-            self.symbolBackgrounds[3] = Color.green
-            self.symbolBackgrounds[6] = Color.green
-        }
-        
-        if (self.numbers[1] == self.numbers[4] && self.numbers[1] == self.numbers[7]) {
-            self.cardsMatchVertically = true
-            self.verticalMultiplier += 1
-            
-            self.symbolBackgrounds[1] = Color.green
-            self.symbolBackgrounds[4] = Color.green
-            self.symbolBackgrounds[7] = Color.green
-        }
-        
-        if (self.numbers[2] == self.numbers[5] && self.numbers[2] == self.numbers[8]) {
-            self.cardsMatchVertically = true
-            self.verticalMultiplier += 1
-            
-            self.symbolBackgrounds[2] = Color.green
-            self.symbolBackgrounds[5] = Color.green
-            self.symbolBackgrounds[8] = Color.green
-        }
-    }
-    
-    func diagonalMatch() {
-        self.cardsMatchDiagonally = false
-        
-        if (self.numbers[0] == self.numbers[4] && self.numbers[4] == self.numbers[8]) {
-            self.cardsMatchDiagonally = true
-            self.diagonalMultiplier += 1
-            
-            self.symbolBackgrounds[0] = Color.green
-            self.symbolBackgrounds[4] = Color.green
-            self.symbolBackgrounds[8] = Color.green
-        }
-        if (self.numbers[2] == self.numbers[4] && self.numbers[4] == self.numbers[6]) {
-            self.cardsMatchDiagonally = true
-            self.diagonalMultiplier += 1
-            
-            self.symbolBackgrounds[2] = Color.green
-            self.symbolBackgrounds[4] = Color.green
-            self.symbolBackgrounds[6] = Color.green
-        }
-    }
     
     var body: some View {
         ZStack {
@@ -200,44 +111,11 @@ struct ContentView: View {
                 HStack {
                     Spacer()
                     Button(action: {
-                        self.numbers = self.numbers.map({ _ in
-                            Int.random(in: 0..<self.symbols.count)
-                        })
-                        
-                        self.horizontalMultiplier = 0
-                        self.verticalMultiplier = 0
-                        self.diagonalMultiplier = 0
-                        
-                        // set card backgrounds back to white
-                        self.symbolBackgrounds = self.symbolBackgrounds.map { _ in
-                            Color.white
-                        }
-                        
-                        self.horizontalMatch()
-                        self.verticalMatch()
-                        self.diagonalMatch()
-                        
-                        let multipliers = self.verticalMultiplier + self.horizontalMultiplier + self.diagonalMultiplier
-                        
-                        if (self.cardsMatchDiagonally) {
-                            self.credits += self.betAmount * 3/2 * multipliers
-                            print("D = \(self.credits) | m : \(multipliers)")
-                        }
-                        else if (self.cardsMatchHorizontally) {
-                            self.credits += self.betAmount * 3/2 * multipliers
-                            print("H = \(self.credits) | m : \(multipliers)")
-                        }
-                        else if (self.cardsMatchVertically) {
-                            self.credits += self.betAmount * 3/2 * multipliers
-                            print("V = \(self.credits) | m : \(multipliers)")
-                        }
-                        else {
-                            print("no match: \(self.credits)")
-                            self.credits -= self.betAmount
-                        }
+                        // Do a single spin
+                        self.processResults()
                         
                     }) {
-                        Text("10 Credits")
+                        Text("\(betAmount) Credits")
                             .fontWeight(.semibold)
                             .foregroundColor(.white)
                             .padding(.all, 10)
@@ -249,60 +127,11 @@ struct ContentView: View {
                     Spacer()
                     
                     Button(action: {
-                        self.numbers = self.numbers.map({ _ in
-                            Int.random(in: 0..<self.symbols.count)
-                        })
-                        
-                        self.horizontalMultiplier = 0
-                        self.verticalMultiplier = 0
-                        self.diagonalMultiplier = 0
-                        
-                        // set card backgrounds back to white
-                        self.symbolBackgrounds = self.symbolBackgrounds.map { _ in
-                            Color.white
-                        }
-                        
-                        self.horizontalMatch()
-                        self.verticalMatch()
-                        self.diagonalMatch()
-                        
-                        let multipliers = self.verticalMultiplier + self.horizontalMultiplier + self.diagonalMultiplier
-                        
-                        if (self.cardsMatchVertically && self.cardsMatchHorizontally && self.cardsMatchDiagonally) {
-                            self.credits += self.betAmount * 5 * multipliers
-                           print("V + H + D = \(self.credits) | m : \(multipliers)")
-                        }
-                        else if (self.cardsMatchVertically && self.cardsMatchHorizontally) {
-                            self.credits += self.betAmount * 4 * multipliers
-                            print("V + H = \(self.credits) | m : \(multipliers)")
-                        }
-                        else if (self.cardsMatchVertically && self.cardsMatchDiagonally) {
-                            self.credits += self.betAmount * 4 * multipliers
-                            print("V + D = \(self.credits) | m : \(multipliers)")
-                        }
-                        else if (self.cardsMatchHorizontally && self.cardsMatchDiagonally) {
-                            self.credits += self.betAmount * 4 * multipliers
-                            print("H + D = \(self.credits) | m : \(multipliers)")
-                        }
-                        else if (self.cardsMatchDiagonally) {
-                            self.credits += self.betAmount * 4 * multipliers
-                            print("D = \(self.credits) | m : \(multipliers)")
-                        }
-                        else if (self.cardsMatchHorizontally) {
-                            self.credits += self.betAmount * 4 * multipliers
-                            print("H = \(self.credits) | m : \(multipliers)")
-                        }
-                        else if (self.cardsMatchVertically) {
-                            self.credits += self.betAmount * 4 * multipliers
-                            print("V = \(self.credits) | m : \(multipliers)")
-                        }
-                        else {
-                            print("no match: \(self.credits)")
-                            self.credits -= self.betAmount * 10
-                        }
+                        // Spin all
+                        self.processResults(true)
                         
                     }) {
-                        Text("100 Credits")
+                        Text("\(betAmount * 10) Credits")
                             .fontWeight(.semibold)
                             .foregroundColor(.white)
                             .padding(.all, 10)
@@ -316,6 +145,87 @@ struct ContentView: View {
                 
                 Spacer()
             }
+        }
+        
+    }
+    
+    func horizontalMatch() {
+        checkMatch(0, 1, 2)
+        checkMatch(3, 4, 5)
+        checkMatch(6, 7, 8)
+    }
+    
+    func verticalMatch() {
+        checkMatch(0, 3, 6)
+        checkMatch(1, 4, 7)
+        checkMatch(2, 5, 8)
+    }
+    
+    func diagonalMatch() {
+        checkMatch(0, 4, 8)
+        checkMatch(2, 4, 6)
+    }
+    
+    func processResults(_ isMax: Bool = false) {
+        // set card backgrounds back to white
+        self.symbolBackgrounds = self.symbolBackgrounds.map { _ in
+            Color.white
+        }
+        
+    
+        if isMax {
+            // Spin all the cards
+            // change the images
+            self.numbers = self.numbers.map({ _ in
+                Int.random(in: 0..<self.symbols.count)
+            })
+        }
+        else {
+            // Spin the middle row
+            self.numbers[3] = Int.random(in: 0..<self.symbols.count)
+            self.numbers[4] = Int.random(in: 0..<self.symbols.count)
+            self.numbers[5] = Int.random(in: 0..<self.symbols.count)
+        }
+        
+        processWin(isMax)
+    }
+    
+    func processWin(_ isMax: Bool = false) {
+        self.matches = 0
+        
+        if !isMax {
+            // only the middle row
+            checkMatch(3, 4, 5)
+        }
+        else {
+            // Processing for max spin
+            horizontalMatch()
+            verticalMatch()
+            diagonalMatch()
+        }
+        
+        // Check matches and calculate credits
+        if self.matches > 0 {
+            // wins
+            self.credits += self.matches * betAmount * 2
+        }
+        else if !isMax {
+            // 0 wins, single spin
+            self.credits -= betAmount
+        }
+        else {
+            // 0 wins, max spin
+            self.credits -= betAmount * 6
+        }
+    }
+    
+    func checkMatch(_ index1:Int, _ index2: Int, _ index3: Int) {
+        if (self.numbers[index1] == self.numbers[index2] && self.numbers[index2] == self.numbers[index3]) {
+            self.symbolBackgrounds[index1] = Color.green
+            self.symbolBackgrounds[index2] = Color.green
+            self.symbolBackgrounds[index3] = Color.green
+            
+            self.matches += 1
         }
     }
 }
